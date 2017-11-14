@@ -6,6 +6,8 @@ ENV JIRA_INSTALL  /opt/atlassian/jira
 ENV JIRA_VERSION  7.5.2
 ENV JIRA_USER jirauser
 ENV JIRA_GROUP jirauser
+ENV AJP_PORT 8009
+ENV HTTP_PORT 8080
 
 # Set User and UserGroup
 RUN addgroup ${JIRA_GROUP} \
@@ -34,26 +36,23 @@ RUN set -x \
     && sed --in-place          "s/java version/openjdk version/g" "${JIRA_INSTALL}/bin/check-java.sh" \
     && echo -e                 "\njira.home=$JIRA_HOME" >> "${JIRA_INSTALL}/atlassian-jira/WEB-INF/classes/jira-application.properties" \
     && touch -d "@0"           "${JIRA_INSTALL}/conf/server.xml" \
-    && xmlstarlet ed --inplace -s '//Service[@name="Catalina"]' -t "elem" -n 'Connector port="8009" URIEncoding="UTF-8" enableLookups="false" protocol="AJP/1.3"' "${JIRA_INSTALL}/conf/server.xml"
+    && xmlstarlet ed --inplace -s '//Service[@name="Catalina"]' -t "elem" -n 'Connector port="${AJP_PORT}" URIEncoding="UTF-8" enableLookups="false" protocol="AJP/1.3"' "${JIRA_INSTALL}/conf/server.xml"
 
-# Use the default unprivileged account. This could be considered bad practice
-# on systems where multiple processes end up being executed by 'daemon' but
-# here we only ever run one process anyway.
-USER jirauser:jirauser
+USER ${JIRA_USER}:${JIRA_GROUP}
 
-# Expose default HTTP connector port.
-EXPOSE 8080 8009
+# Expose default HTTP and AJP connector port.
+EXPOSE ${HTTP_PORT} ${AJP_PORT}
 
 # Set volume mount points for installation and home directory. Changes to the
 # home directory needs to be persisted as well as parts of the installation
 # directory due to eg. logs.
-VOLUME /var/atlassian/jira /opt/atlassian/jira/logs
+VOLUME ${JIRA_HOME} ${JIRA_INSTALL}/logs
 
 # Set the default working directory as the installation directory.
-WORKDIR /var/atlassian/jira
+WORKDIR ${JIRA_HOME}
 
 COPY "docker-entrypoint.sh" "/"
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # Run Atlassian JIRA as a foreground process by default.
-CMD ["/opt/atlassian/jira/bin/catalina.sh", "run"]
+CMD ["${JIRA_INSTALL}/bin/catalina.sh", "run"]
