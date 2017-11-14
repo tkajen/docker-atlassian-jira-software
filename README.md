@@ -1,1 +1,1 @@
-[![CircleCI Build Status](https://img.shields.io/circleci/project/kajendran/docker-atlassian-jira-software/master.svg?label=CircleCI)](https://circleci.com/gh/kajendran/docker-atlassian-jira-software)
+
