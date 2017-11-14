@@ -20,10 +20,10 @@ RUN set -x \
     && apt-get clean
 
 # Install Atlassian JIRA and directory structure.
-#RUN set -x \
-#    && mkdir -p                "${JIRA_HOME}/caches/indexes" \
-#    && chmod -R 700            "${JIRA_HOME}" \
-#    && chown -R jirauser:jirauser  "${JIRA_HOME}" \
+RUN set -x \
+    && mkdir -p                "${JIRA_HOME}/caches/indexes" \
+    && chmod -R 700            "${JIRA_HOME}" \
+    && chown -R ${JIRA_USER}:${JIRA_GROUP}  "${JIRA_HOME}" 
 #    && mkdir -p                "${JIRA_INSTALL}/conf/Catalina" \
 #    && curl -Ls                "https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-software-7.5.2.tar.gz" | tar -xz --directory "${JIRA_INSTALL}" --strip-components=1 --no-same-owner \
 #    && curl -Ls                "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.tar.gz" | tar -xz --directory "${JIRA_INSTALL}/lib" --strip-components=1 --no-same-owner "mysql-connector-java-5.1.38/mysql-connector-java-5.1.38-bin.jar" \
