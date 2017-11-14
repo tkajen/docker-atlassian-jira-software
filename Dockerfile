@@ -33,8 +33,9 @@ RUN set -x \
     && chown -R jirauser:jirauser  "${JIRA_INSTALL}" \
     && sed --in-place          "s/java version/openjdk version/g" "${JIRA_INSTALL}/bin/check-java.sh" \
     && echo -e                 "\njira.home=$JIRA_HOME" >> "${JIRA_INSTALL}/atlassian-jira/WEB-INF/classes/jira-application.properties" \
-    && touch -d "@0"           "${JIRA_INSTALL}/conf/server.xml" \
-    && xmlstarlet ed --inplace -s '//Service[@name="Catalina"]' -t "elem" -n 'Connector port="8009" URIEncoding="UTF-8" enableLookups="false" protocol="AJP/1.3"' "${JIRA_INSTALL}/conf/server.xml"
+    && touch -d "@0"           "${JIRA_INSTALL}/conf/server.xml"
+    #\
+    #&& xmlstarlet ed --inplace -s '//Service[@name="Catalina"]' -t "elem" -n 'Connector port="8009" URIEncoding="UTF-8" enableLookups="false" protocol="AJP/1.3"' "${JIRA_INSTALL}/conf/server.xml"
 
 # Use the default unprivileged account. This could be considered bad practice
 # on systems where multiple processes end up being executed by 'daemon' but
