@@ -46,7 +46,7 @@ EXPOSE ${HTTP_PORT} ${AJP_PORT}
 # Set volume mount points for installation and home directory. Changes to the
 # home directory needs to be persisted as well as parts of the installation
 # directory due to eg. logs.
-VOLUME ${JIRA_HOME} ${JIRA_INSTALL}/logs
+VOLUME [${JIRA_HOME}, ${JIRA_INSTALL}/logs]
 
 # Set the default working directory as the installation directory.
 WORKDIR ${JIRA_HOME}
@@ -55,4 +55,4 @@ COPY "docker-entrypoint.sh" "/"
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # Run Atlassian JIRA as a foreground process by default.
-CMD ["${JIRA_INSTALL}/bin/catalina.sh", "run"]
+CMD ["/opt/atlassian/jira/bin/catalina.sh", "run"]
