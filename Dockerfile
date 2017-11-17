@@ -35,8 +35,7 @@ RUN set -x \
     && chown -R ${JIRA_USER}:${JIRA_GROUP}  "${JIRA_INSTALL}" \
     && sed --in-place          "s/java version/openjdk version/g" "${JIRA_INSTALL}/bin/check-java.sh" \
     && echo -e                 "\njira.home=$JIRA_HOME" >> "${JIRA_INSTALL}/atlassian-jira/WEB-INF/classes/jira-application.properties" \
-    && touch -d "@0"           "${JIRA_INSTALL}/conf/server.xml" \
-    && xmlstarlet ed --inplace -s '//Service[@name="Catalina"]' -t "elem" -n 'Connector port="${AJP_PORT}" URIEncoding="UTF-8" enableLookups="false" protocol="AJP/1.3"' "${JIRA_INSTALL}/conf/server.xml"
+    && touch -d "@0"           "${JIRA_INSTALL}/conf/server.xml"
 
 USER ${JIRA_USER}:${JIRA_GROUP}
 
