@@ -10,7 +10,7 @@ ENV HTTP_PORT 8080
 
 # Set User and UserGroup
 RUN addgroup ${JIRA_GROUP} \
-    && useradd -r -u 998 -g ${JIRA_GROUP} ${JIRA_USER}
+    && useradd -r -u 999 -g ${JIRA_GROUP} ${JIRA_USER}
 
 # Install helper tools and setup initial home
 RUN set -x \
