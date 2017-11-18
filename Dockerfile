@@ -6,12 +6,11 @@ ENV JIRA_INSTALL  /opt/atlassian/jira
 ENV JIRA_VERSION  7.5.2
 ENV JIRA_USER jirauser
 ENV JIRA_GROUP jirauser
-ENV AJP_PORT 8009
 ENV HTTP_PORT 8080
 
 # Set User and UserGroup
 RUN addgroup ${JIRA_GROUP} \
-    && useradd -r -u 999 -g ${JIRA_GROUP} ${JIRA_USER}
+    && useradd -r -u 998 -g ${JIRA_GROUP} ${JIRA_USER}
 
 # Install helper tools and setup initial home
 RUN set -x \
@@ -40,7 +39,7 @@ RUN set -x \
 USER ${JIRA_USER}:${JIRA_GROUP}
 
 # Expose default HTTP and AJP connector port.
-EXPOSE ${HTTP_PORT} ${AJP_PORT}
+EXPOSE ${HTTP_PORT}
 
 # Set volume mount points for installation and home directory. Changes to the
 # home directory needs to be persisted as well as parts of the installation
