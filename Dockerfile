@@ -3,7 +3,7 @@ FROM openjdk:8
 # Configuration variables.
 ENV JIRA_HOME     /var/atlassian/jira
 ENV JIRA_INSTALL  /opt/atlassian/jira
-ENV JIRA_VERSION  7.5.2
+ENV JIRA_VERSION  7.7.0
 ENV JIRA_USER jirauser
 ENV JIRA_GROUP jirauser
 ENV HTTP_PORT 8080
